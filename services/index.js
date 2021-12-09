@@ -2,7 +2,7 @@ import Axios from "axios";
 import { API_ROOT } from "../utils/config";
 const instance = Axios.create({
   baseURL: API_ROOT,
-  timeout: 10000,
+  // timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });
 

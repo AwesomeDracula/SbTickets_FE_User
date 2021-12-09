@@ -7,7 +7,8 @@ import {
   Select,
   DatePicker,
   InputNumber,
-  Button
+  Button,
+  Spin
 } from "antd";
 import Swal from "sweetalert2";
 import { dec } from "../../utils/encdec";
@@ -30,6 +31,7 @@ class Details extends React.Component {
     confirmPassword: "",
     customerId: null,
     isEditingInfo: false,
+    checkLoading: false
   };
 
   componentDidMount() {
@@ -99,12 +101,24 @@ class Details extends React.Component {
       customerId: parseInt(customerId),
       seatBooked: seat
      };
+     this.setState({
+      checkLoading: true
+    })
     const resp = await postBookSeat(info);
     if (resp.status === 200) {
+      this.setState({
+        checkLoading: false
+      })
       this.sweetAlert("success", `Thank you for your booking! Your seat number is ${seat}`)
     } else if (resp.status === 403) {
+      this.setState({
+        checkLoading: false
+      })
       this.sweetAlert("error", resp.msg);
     } else {
+      this.setState({
+        checkLoading: false
+      })
       this.sweetAlert("error");
     }
   };
@@ -250,7 +264,11 @@ class Details extends React.Component {
                   style={{ width: "100%" }}
                   onClick={this.handleSubmit}
                 >
-                  Proceed to Confirmation
+                  {console.log(this.state.checkLoading)}
+                  {
+                    
+                    this.state.checkLoading ?  <Spin /> : `Proceed to Confirmation `
+                  }
                 </Button>
                 <br /><br />
                 <h5 style={{ textAlign: "center" }}>
