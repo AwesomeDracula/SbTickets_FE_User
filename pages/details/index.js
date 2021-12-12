@@ -23,6 +23,7 @@ class Details extends React.Component {
     name: "",
     nationalId: "",
     dob: "",
+    email: "",
     address: "",
     isLoggedin: false,
     isRegistering: false,
@@ -57,6 +58,7 @@ class Details extends React.Component {
       name: resp.body.fullName,
       nationalId: resp.body.cmt,
       dob: resp.body.birthDay,
+      email: resp.body.email,
       address: resp.body.address
     })
   }
@@ -66,7 +68,7 @@ class Details extends React.Component {
   };
 
   handleEditInfo = async () => {
-    const { customerId, name, nationalId, dob, address, isEditingInfo } = this.state
+    const { customerId, name, nationalId, dob, email, address, isEditingInfo } = this.state
     if(!isEditingInfo){
       this.setState({
         isEditingInfo: true
@@ -77,7 +79,8 @@ class Details extends React.Component {
       fullName: name,
       address,
       cmt: nationalId,
-      birthDay: dob
+      birthDay: dob,
+      email: email
     });
     this.fetchCustomerData(customerId)
     if (resp.status === 200) {
@@ -143,7 +146,7 @@ class Details extends React.Component {
   }
 
   handleRegister = async () => {
-    const { username, password, confirmPassword, name, nationalId, address, dob } = this.state
+    const { username, password, confirmPassword, name, nationalId, address, dob, email } = this.state
     if (password !== confirmPassword) {
       this.sweetAlert("error", "Password not match")
     } else {
@@ -153,7 +156,8 @@ class Details extends React.Component {
         fullName: name,
         cmt: nationalId,
         address,
-        birthDay: dob
+        birthDay: dob,
+        email: email
       })
       if (resp.status === 200) {
         this.sweetAlert("success", `Please log in`)
@@ -192,7 +196,7 @@ class Details extends React.Component {
   };
 
   render() {
-    const { isLoggedin, isRegistering, name, nationalId, dob, address, isEditingInfo } = this.state;
+    const { isLoggedin, isRegistering, name, nationalId, dob, email, address, isEditingInfo } = this.state;
     return (
       <Layout>
         <Row className="row-container">
@@ -220,6 +224,15 @@ class Details extends React.Component {
                   />
                 </Input.Group>
                 <br />
+                <Input.Group>
+                    <h4>Email:</h4>
+                    <Input
+                      onChange={this.handleChange}
+                      name="email"
+                      value={email}
+                    />
+                  </Input.Group>
+                  <br />
                 <Input.Group>
                   <h4>Current Address:</h4>
                   <Input
@@ -348,6 +361,15 @@ class Details extends React.Component {
                       onChange={this.handleChange}
                       name="nationalId"
                       value={nationalId}
+                    />
+                  </Input.Group>
+                  <br />
+                  <Input.Group>
+                    <h4>Email:</h4>
+                    <Input
+                      onChange={this.handleChange}
+                      name="email"
+                      value={email}
                     />
                   </Input.Group>
                   <br />
